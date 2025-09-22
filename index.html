@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anshika Singh - Product Designer & Developer</title>
+    <meta name="description" content="Product designer and developer who thrives in creativity and solution crafting that work at scale.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom Font - Glitten (you'll need to add the font files) */
+          @font-face {
+            font-family: 'Glitten';
+             src: url('fonts/Glitten-Regular.otf') format('opentype');
+             font-weight: normal;
+             font-style: normal;
+             font-display: swap;
+}   
+
+
+        /* CSS Variables */
+        :root {
+            --color-bg: #E6E6E6;
+            --color-text: #1a1a1a;
+            --color-text-light: #666;
+            --color-white: #ffffff;
+            --color-shadow: rgba(0, 0, 0, 0.1);
+            --color-shadow-hover: rgba(0, 0, 0, 0.15);
+            
+            --font-display: 'Glitten', 'Lato', serif;
+            --font-body: 'Lato', sans-serif;
+            
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+            --spacing-2xl: 6rem;
+            
+            --border-radius: 12px;
+            --border-radius-pill: 50px;
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(230, 230, 230, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: var(--spacing-sm) 0;
+            transition: var(--transition);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 400;
+            color: var(--color-text);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            opacity: 0.7;
+        }
+
+        .nav__menu {
+            display: flex;
+            gap: var(--spacing-xs);
+            list-style: none;
+        }
+
+        .nav__link {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--color-E6E6E6);
+            color: var(--color-text);
+            text-decoration: none;
+            border-radius: var(--border-radius-pill);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            box-shadow: 0 2px 10px var(--color-shadow);
+        }
+
+        .nav__link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--color-shadow-hover);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: var(--spacing-lg);
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .hero__3d {
+            width: 100%;
+            height: 80vh;
+            min-height: 600px;
+            z-index: 1;
+        }
+
+        .hero__3d iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: auto;
+        }
+
+        .hero__content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: var(--spacing-md);
+            z-index: 10;
+        }
+
+        .hero__title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: var(--spacing-md);
+            text-align: left;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+        }
+
+        .hero__subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            line-height: 1.6;
+            text-align: left;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out 0.8s forwards;
+        }
+
+        .hero__subtitle .highlight {
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        /* Sections */
+        .section {
+            padding: var(--spacing-2xl) 0;
+            position: relative;
+        }
+
+        .section__title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 400;
+            margin-bottom: var(--spacing-xl);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* Featured Work */
+        .work__grid {
+            display: grid;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .work__item {
+            background: #d0d0d0;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .work__item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px var(--color-shadow-hover);
+        }
+
+        .work__item--large {
+            aspect-ratio: 16/9;
+            grid-column: 1 / -1;
+        }
+
+        .work__item--medium {
+            aspect-ratio: 1;
+        }
+
+        .work__grid-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+        }
+
+        /* About Section */
+        .about {
+            background: var(--color-EEEEEE);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-xl);
+            box-shadow: 0 10px 30px var(--color-shadow);
+            margin-bottom: var(--spacing-xl);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .about__content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--color-text-light);
+        }
+
+        /* Footer */
+        .footer {
+            background: #d0d0d0;
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+        }
+
+        .footer__email {
+            font-size: 1.25rem;
+            color: var(--color-text);
+            text-decoration: none;
+            margin-bottom: var(--spacing-sm);
+            display: block;
+            transition: var(--transition);
+        }
+
+        .footer__email:hover {
+            opacity: 0.7;
+        }
+
+        .footer__copyright {
+            color: var(--color-text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--spacing-sm);
+            }
+
+            .nav {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+                padding-top: 120px;
+            }
+
+            .hero__3d {
+                height: 50vh;
+                min-height: 400px;
+                order: 1;
+            }
+
+            .hero__content {
+                order: 2;
+            }
+
+            .work__grid-row {
+                grid-template-columns: 1fr;
+            }
+
+            .about {
+                padding: var(--spacing-md);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav__menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .nav__link {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        *:focus {
+            outline: 2px solid var(--color-text);
+            outline-offset: 2px;
+        }
+
+        /* Intersection Observer Classes */
+        .fade-in {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="#" class="logo">Anshika Singh</a>
+                <ul class="nav__menu">
+                    <li><a href="#work" class="nav__link">My Work</a></li>
+                    <li><a href="#contact" class="nav__link">Connect</a></li>
+                    <li><a href="#about" class="nav__link">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+   <section class="hero">
+    <div class="hero__3d" id="morphing-container"></div>
+    <div class="hero__content">
+        <h1 class="hero__title">Hi! I'm Anshika,</h1>
+        <p class="hero__subtitle">
+            a <span class="highlight">product designer</span> and <span class="highlight">developer</span> who thrives<br>
+            in creativity and solution crafting that work at scale.
+        </p>
+    </div>
+    </section>
+
+    <!-- Featured Work -->
+    <section class="section" id="work">
+        <div class="container">
+            <h2 class="section__title">Featured Work</h2>
+            <div class="work__grid">
+                <div class="work__item work__item--large"></div>
+                <div class="work__grid-row">
+                    <div class="work__item work__item--medium"></div>
+                    <div class="work__item work__item--medium"></div>
+                </div>
+                <div class="work__item work__item--large"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <h2 class="section__title">About Me</h2>
+            <div class="about">
+                <div class="about__content">
+                    <p>I'm a passionate product designer and developer with a love for creating intuitive, scalable solutions. My work spans across digital experiences, focusing on the intersection of beautiful design and functional development.</p>
+                    <br>
+                    <p>When I'm not crafting pixels or writing code, you'll find me exploring new design trends, experimenting with 3D art, or diving deep into the latest technologies that push the boundaries of what's possible on the web.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <a href="mailto:anshika100104@gmail.com" class="footer__email">anshika100104@gmail.com</a>
+            <p class="footer__copyright">Copyright © 2025 Anshika Singh</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerHeight = document.querySelector('.header').offsetHeight;
+                    const targetPosition = target.offsetTop - headerHeight - 20;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const elementsToAnimate = document.querySelectorAll('.section__title, .work__item, .about');
+            elementsToAnimate.forEach(el => observer.observe(el));
+        });
+
+        // Header background on scroll
+        let lastScrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(230, 230, 230, 0.98)';
+            } else {
+                header.style.background = 'rgba(230, 230, 230, 0.95)';
+            }
+        });
+
+        // 3D Model interaction optimization
+        const hero3D = document.querySelector('.hero__3d iframe');
+        
+        // Ensure 3D model loads properly
+        window.addEventListener('load', () => {
+            if (hero3D) {
+                hero3D.style.visibility = 'visible';
+            }
+        });
+
+        // Preload optimization
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+        });
+    </script>
+    <script src="morphing-shape.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
