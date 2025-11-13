@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anshika Singh - Product Designer & Developer</title>
-    <meta name="description" content="Product designer and developer who thrives in creativity and solution crafting that work at scale.">
+    <meta name="description" content="CSE student with experience in AI-driven monitoring systems, predictive analytics, and cloud-based applications. Skilled in Java, Python, UI/UX, and GenAI workflows.">
     
-    <!-- Three.js MUST be first -->
+    <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     
     <!-- Fonts -->
@@ -28,6 +28,7 @@
             --color-text: #1a1a1a;
             --color-text-light: #666;
             --color-white: #ffffff;
+            --color-accent: #1a1a1a;
             --color-E6E6E6: #E6E6E6;
             --color-EEEEEE: #EEEEEE;
             --color-shadow: rgba(0, 0, 0, 0.1);
@@ -50,7 +51,6 @@
             --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Reset & Base */
         * {
             margin: 0;
             padding: 0;
@@ -70,7 +70,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Container */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -115,7 +114,6 @@
             list-style: none;
         }
 
-        /* FIXED Navigation Links - Your Custom Colors */
         .nav__link {
             display: inline-block;
             padding: 0.75rem 1.5rem;
@@ -127,16 +125,14 @@
             font-weight: 500;
             font-size: 0.95rem;
             transition: var(--transition);
-            box-shadow: none;
         }
 
         .nav__link:hover {
             transform: translateY(-2px);
             border-color: #bbbcbc;
-            box-shadow: none;
         }
 
-        /* FIXED Hero Section - For 3D Animation */
+        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: grid;
@@ -154,8 +150,7 @@
             min-height: 600px;
             z-index: 1;
             position: relative;
-            overflow: hidden; /* Prevent overflow beyond container */
-            /* Gradient mask for smooth transition */
+            overflow: hidden;
             mask: linear-gradient(to right, 
                 rgba(0,0,0,1) 0%, 
                 rgba(0,0,0,1) 65%, 
@@ -178,6 +173,32 @@
             padding-left: var(--spacing-lg);
             z-index: 10;
             position: relative;
+        }
+
+        .hero__title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: var(--spacing-md);
+            text-align: left;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+        }
+
+        .hero__subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            line-height: 1.6;
+            text-align: left;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out 0.8s forwards;
+        }
+
+        .hero__subtitle .highlight {
+            font-style: italic;
+            font-weight: 500;
         }
 
         /* Social Media Icons */
@@ -220,32 +241,6 @@
             transform: scale(1.1);
         }
 
-        .hero__title {
-            font-family: var(--font-display);
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 400;
-            line-height: 1.2;
-            margin-bottom: var(--spacing-md);
-            text-align: left;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s ease-out 0.5s forwards;
-        }
-
-        .hero__subtitle {
-            font-size: clamp(1.1rem, 2vw, 1.3rem);
-            line-height: 1.6;
-            text-align: left;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s ease-out 0.8s forwards;
-        }
-
-        .hero__subtitle .highlight {
-            font-style: italic;
-            font-weight: 500;
-        }
-
         /* Sections */
         .section {
             padding: var(--spacing-2xl) 0;
@@ -256,49 +251,115 @@
             font-family: var(--font-display);
             font-size: clamp(2rem, 5vw, 3rem);
             font-weight: 400;
-            margin-bottom: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
             opacity: 0;
             transform: translateY(30px);
         }
 
-        /* Featured Work */
-        .work__grid {
+        /* Projects Section */
+        .projects__grid {
             display: grid;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-xl);
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--spacing-lg);
         }
 
-        .work__item {
-            background: #d0d0d0;
+        .project-card {
+            background: var(--color-white);
             border-radius: var(--border-radius);
-            overflow: hidden;
+            padding: var(--spacing-lg);
+            box-shadow: 0 10px 30px var(--color-shadow);
             transition: var(--transition);
-            cursor: pointer;
             opacity: 0;
             transform: translateY(30px);
         }
 
-        .work__item:hover {
+        .project-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 40px var(--color-shadow-hover);
         }
 
-        .work__item--large {
-            aspect-ratio: 16/9;
-            grid-column: 1 / -1;
+        .project-card__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--spacing-sm);
         }
 
-        .work__item--medium {
-            aspect-ratio: 1;
+        .project-card__title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-xs);
+            color: var(--color-text);
         }
 
-        .work__grid-row {
+        .project-card__link {
+            color: var(--color-text);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .project-card__link:hover {
+            opacity: 0.7;
+        }
+
+        .project-card__description {
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.7;
+        }
+
+        .project-card__tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+            margin-top: var(--spacing-sm);
+        }
+
+        .tech-tag {
+            background: var(--color-bg);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--color-text);
+        }
+
+        /* Skills Section */
+        .skills__container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--spacing-md);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
         }
 
-        /* FIXED About Section - Your Custom Colors */
+        .skill-category {
+            background: var(--color-white);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px var(--color-shadow);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .skill-category__title {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .skill-category__list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+        }
+
+        .skill-category__list li {
+            background: var(--color-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* About Section */
         .about {
             background: var(--color-EEEEEE);
             border-radius: var(--border-radius);
@@ -313,6 +374,32 @@
             font-size: 1.1rem;
             line-height: 1.8;
             color: var(--color-text-light);
+        }
+
+        .about__stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .stat {
+            text-align: center;
+            padding: var(--spacing-md);
+            background: var(--color-white);
+            border-radius: var(--border-radius);
+        }
+
+        .stat__number {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--color-accent);
+            display: block;
+        }
+
+        .stat__label {
+            color: var(--color-text-light);
+            font-size: 0.9rem;
         }
 
         /* Footer */
@@ -348,7 +435,6 @@
             }
         }
 
-        /* Utility Classes */
         .fade-in {
             opacity: 1 !important;
             transform: translateY(0) !important;
@@ -369,7 +455,7 @@
             .hero {
                 grid-template-columns: 1fr;
                 gap: var(--spacing-md);
-                padding-top: 120px;
+                padding-top: 140px;
             }
 
             .hero__3d {
@@ -391,16 +477,16 @@
                 flex-direction: row;
                 justify-content: center;
                 transform: none;
-                margin-top: var(--spacing-md);
+                margin: var(--spacing-md) 0;
                 order: 3;
             }
 
-            .work__grid-row {
+            .projects__grid {
                 grid-template-columns: 1fr;
             }
 
-            .about {
-                padding: var(--spacing-md);
+            .about__stats {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -438,9 +524,10 @@
             <nav class="nav">
                 <a href="#" class="logo">Anshika Singh</a>
                 <ul class="nav__menu">
-                    <li><a href="#work" class="nav__link">My Work</a></li>
-                    <li><a href="#contact" class="nav__link">Connect</a></li>
+                    <li><a href="#projects" class="nav__link">Projects</a></li>
+                    <li><a href="#skills" class="nav__link">Skills</a></li>
                     <li><a href="#about" class="nav__link">About</a></li>
+                    <li><a href="#contact" class="nav__link">Connect</a></li>
                 </ul>
             </nav>
         </div>
@@ -460,10 +547,10 @@
 
     <!-- Social Media Icons -->
     <div class="social-icons">
-        <a href="https://github.com/anshikasingh" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub Profile">
+        <a href="https://github.com/anshikasingh0705" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub Profile">
             <img src="images/github.svg" alt="GitHub" />
         </a>
-        <a href="https://linkedin.com/in/anshikasingh" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn Profile">
+        <a href="https://www.linkedin.com/in/anshika-singh-64204b260" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn Profile">
             <img src="images/linkedin.svg" alt="LinkedIn" />
         </a>
         <a href="mailto:anshika100104@gmail.com" class="social-icon" aria-label="Email">
@@ -471,17 +558,140 @@
         </a>
     </div>
 
-    <!-- Featured Work -->
-    <section class="section" id="work">
+    <!-- Projects Section -->
+    <section class="section" id="projects">
         <div class="container">
-            <h2 class="section__title">Featured Work</h2>
-            <div class="work__grid">
-                <div class="work__item work__item--large"></div>
-                <div class="work__grid-row">
-                    <div class="work__item work__item--medium"></div>
-                    <div class="work__item work__item--medium"></div>
+            <h2 class="section__title">Featured Projects</h2>
+            <div class="projects__grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-card__header">
+                        <h3 class="project-card__title">Predictops Monitoring</h3>
+                        <a href="https://github.com/anshikasingh0705/predictops-monitoring" target="_blank" class="project-card__link" aria-label="View Project">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="project-card__description">
+                        AI-powered predictive monitoring system using machine learning to forecast system failures 6-24 hours in advance with 92% accuracy. Built with FastAPI and React, processing 10K+ metrics/sec with real-time anomaly detection.
+                    </p>
+                    <div class="project-card__tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">FastAPI</span>
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">ML</span>
+                    </div>
                 </div>
-                <div class="work__item work__item--large"></div>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-card__header">
+                        <h3 class="project-card__title">Sync City</h3>
+                        <a href="https://github.com/anshikasingh0705/SyncCity" target="_blank" class="project-card__link" aria-label="View Project">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="project-card__description">
+                        Platform for inter-departmental collaboration, resource sharing, and project coordination. Developed for Smart India Hackathon 2024 (Top 30/120+ teams). Streamlines government department workflows.
+                    </p>
+                    <div class="project-card__tech">
+                        <span class="tech-tag">Java</span>
+                        <span class="tech-tag">UI/UX</span>
+                        <span class="tech-tag">Collaboration</span>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="project-card__header">
+                        <h3 class="project-card__title">RecyQ-E-WasteLocator</h3>
+                        <a href="https://github.com/anshikasingh0705/RecyQ" target="_blank" class="project-card__link" aria-label="View Project">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="project-card__description">
+                        E-waste locator platform connecting e-waste producers with recyclers. Led UI design and developed marketplace workflow to promote sustainable waste management.
+                    </p>
+                    <div class="project-card__tech">
+                        <span class="tech-tag">Figma</span>
+                        <span class="tech-tag">UI/UX</span>
+                        <span class="tech-tag">HTML</span>
+                        <span class="tech-tag">Marketplace</span>
+                    </div>
+                </div>
+                 <!-- Project 4 -->
+                <div class="project-card">
+                    <div class="project-card__header">
+                        <h3 class="project-card__title">Herb Harbour</h3>
+                        <a href="https://github.com/anshikasingh0705/Herb-Habour" target="_blank" class="project-card__link" aria-label="View Project">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="project-card__description">
+                         Led front-end development, UI development, designed quiz/feedback sections. Managed graphic designing and UI designing.
+                    </p>
+                    <div class="project-card__tech">
+                        <span class="tech-tag">Figma</span>
+                        <span class="tech-tag">UI/UX</span>
+                        <span class="tech-tag">XML</span>
+                        <span class="tech-tag">Java</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section" id="skills">
+        <div class="container">
+            <h2 class="section__title">Skills & Technologies</h2>
+            <div class="skills__container">
+                <div class="skill-category">
+                    <h3 class="skill-category__title">Languages</h3>
+                    <ul class="skill-category__list">
+                        <li>Java</li>
+                        <li>Python</li>
+                        <li>C</li>
+                        <li>JavaScript</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3 class="skill-category__title">Tools & Concepts</h3>
+                    <ul class="skill-category__list">
+                        <li>GitHub</li>
+                        <li>VS Code</li>
+                        <li>OCI GenAI</li>
+                        <li>RAG</li>
+                        <li>LLMs</li>
+                        <li>DSA</li>
+                        <li>OOP</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3 class="skill-category__title">Web & Design</h3>
+                    <ul class="skill-category__list">
+                        <li>HTML/CSS</li>
+                        <li>React</li>
+                        <li>Figma</li>
+                        <li>UI/UX Design</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
@@ -492,9 +702,22 @@
             <h2 class="section__title">About Me</h2>
             <div class="about">
                 <div class="about__content">
-                    <p>I'm a passionate product designer and developer with a love for creating intuitive, scalable solutions. My work spans across digital experiences, focusing on the intersection of beautiful design and functional development.</p>
+                    <p>I'm a CSE student at ITER, Bhubaneswar, with a passion for building AI-driven solutions and intuitive user experiences. My work spans from predictive analytics and machine learning to UI/UX design and full-stack development.</p>
                     <br>
-                    <p>When I'm not crafting pixels or writing code, you'll find me exploring new design trends, experimenting with 3D art, or diving deep into the latest technologies that push the boundaries of what's possible on the web.</p>
+                    <p>I thrive in hackathon environments and collaborative projects, having participated in 8+ hackathons including Smart India Hackathon 2024 where I reached the Top 30/120+. As a core member of SOA Literary Club and CNxITER, I balance technical pursuits with creative endeavors in digital art, writing, and event organization.</p>
+                    <br>
+                    <p>Currently, I'm focusing on GenAI workflows, cloud technologies, and building scalable applications that solve real-world problems.</p>
+                </div>
+                <div class="about__stats">
+                    <div class="stat">
+                        <span class="stat__number">8+</span>
+                        <span class="stat__label">Hackathons</span>
+                    </div>
+                    
+                    <div class="stat">
+                        <span class="stat__number">3+</span>
+                        <span class="stat__label">Major Projects</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -504,13 +727,12 @@
     <footer class="footer" id="contact">
         <div class="container">
             <a href="mailto:anshika100104@gmail.com" class="footer__email">anshika100104@gmail.com</a>
-            <p class="footer__copyright">Copyright © 2025 Anshika Singh</p>
+            <p class="footer__copyright">Copyright © 2025 Anshika Singh · Bhubaneswar, India</p>
         </div>
     </footer>
 
     <!-- Scripts -->
     <script>
-        // Debug: Check if Three.js loaded
         console.log('Three.js loaded:', typeof THREE !== 'undefined');
 
         // Smooth Scrolling
@@ -530,7 +752,7 @@
             });
         });
 
-        // Intersection Observer for animations
+        // Intersection Observer
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -545,32 +767,24 @@
             });
         }, observerOptions);
 
-        // Initialize 3D Animation
+        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            // Animate elements
-            const elementsToAnimate = document.querySelectorAll('.section__title, .work__item, .about');
+            const elementsToAnimate = document.querySelectorAll('.section__title, .project-card, .skill-category, .about');
             elementsToAnimate.forEach(el => observer.observe(el));
 
             // Initialize 3D shape
             const container = document.getElementById('morphing-container');
             if (container && typeof THREE !== 'undefined' && window.MorphingShape3D) {
                 try {
-                    console.log('Initializing 3D shape...');
                     window.morphingShape = new MorphingShape3D(container);
-                    console.log('✅ 3D shape initialized successfully');
+                    console.log('✅ 3D shape initialized');
                 } catch (error) {
-                    console.error('❌ 3D shape initialization failed:', error);
+                    console.error('❌ 3D shape failed:', error);
                 }
-            } else {
-                console.error('❌ Missing:', {
-                    container: !!container,
-                    three: typeof THREE !== 'undefined',
-                    morphClass: !!window.MorphingShape3D
-                });
             }
         });
 
-        // Header background on scroll
+        // Header scroll effect
         window.addEventListener('scroll', () => {
             const header = document.querySelector('.header');
             if (window.scrollY > 100) {
@@ -581,7 +795,6 @@
         });
     </script>
 
-    <!-- Load 3D Shape Script -->
     <script src="morphing-shape.js"></script>
 </body>
 </html>
