@@ -1,6 +1,6 @@
 /**
  * Black Morphing Blob with Breaking/Rejoining Animation
- * No watermarks - completely custom Three.js implementation
+ * Size-constrained version to prevent overflow
  */
 
 class MorphingShape3D {
@@ -38,7 +38,7 @@ class MorphingShape3D {
             0.1,
             1000
         );
-        this.camera.position.set(-1, 0.5, 5); // Shifted left to allow overflow
+        this.camera.position.set(0, 0, 4); // Centered better for constrained view
         
         this.renderer = new THREE.WebGLRenderer({ 
             antialias: true, 
@@ -50,14 +50,11 @@ class MorphingShape3D {
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         
-        // Enable overflow rendering
-        this.renderer.localClippingEnabled = false;
-        
         this.container.appendChild(this.renderer.domElement);
     }
 
     createMainBlob() {
-        const geometry = new THREE.SphereGeometry(2.5, 80, 80);
+        const geometry = new THREE.SphereGeometry(1.8, 80, 80); // Smaller base size
         const positions = geometry.attributes.position.array;
         const originalPositions = [...positions];
         
@@ -67,11 +64,11 @@ class MorphingShape3D {
             const y = originalPositions[i + 1];
             const z = originalPositions[i + 2];
             
-            const noise1 = Math.sin(x * 0.5 + y * 0.3) * 0.4;
-            const noise2 = Math.cos(y * 0.4 + z * 0.6) * 0.3;
-            const noise3 = Math.sin(z * 0.3 + x * 0.7) * 0.25;
+            const noise1 = Math.sin(x * 0.5 + y * 0.3) * 0.3; // Reduced noise
+            const noise2 = Math.cos(y * 0.4 + z * 0.6) * 0.2;
+            const noise3 = Math.sin(z * 0.3 + x * 0.7) * 0.15;
             
-            const totalNoise = (noise1 + noise2 + noise3) * 0.5;
+            const totalNoise = (noise1 + noise2 + noise3) * 0.4; // Less aggressive deformation
             
             positions[i] = x * (1 + totalNoise);
             positions[i + 1] = y * (1 + totalNoise * 0.8);
@@ -95,7 +92,7 @@ class MorphingShape3D {
         });
 
         this.mainBlob = new THREE.Mesh(geometry, material);
-        this.mainBlob.position.x = 0.5; // Slightly right to allow overflow
+        this.mainBlob.position.x = 0; // Centered
         this.mainBlob.castShadow = true;
         this.scene.add(this.mainBlob);
     }
@@ -110,16 +107,16 @@ class MorphingShape3D {
         });
 
         for (let i = 0; i < count; i++) {
-            const size = 0.3 + Math.random() * 0.4;
+            const size = 0.2 + Math.random() * 0.3; // Smaller sizes
             const geometry = new THREE.SphereGeometry(size, 32, 32);
             const blob = new THREE.Mesh(geometry, material.clone());
             
-            // Initial positions around main blob
+            // Initial positions around main blob - closer to center
             const angle = (i / count) * Math.PI * 2;
             blob.position.set(
-                Math.cos(angle) * 3,
-                Math.sin(angle * 1.3) * 1.5,
-                Math.sin(angle) * 0.8
+                Math.cos(angle) * 2,
+                Math.sin(angle * 1.3) * 1,
+                Math.sin(angle) * 0.5
             );
             
             blob.visible = false;
@@ -148,10 +145,10 @@ class MorphingShape3D {
         directionalLight.shadow.mapSize.height = 2048;
         directionalLight.shadow.camera.near = 0.1;
         directionalLight.shadow.camera.far = 50;
-        directionalLight.shadow.camera.left = -10;
-        directionalLight.shadow.camera.right = 10;
-        directionalLight.shadow.camera.top = 10;
-        directionalLight.shadow.camera.bottom = -10;
+        directionalLight.shadow.camera.left = -8;
+        directionalLight.shadow.camera.right = 8;
+        directionalLight.shadow.camera.top = 8;
+        directionalLight.shadow.camera.bottom = -8;
         this.scene.add(directionalLight);
 
         // Rim light
@@ -176,7 +173,7 @@ class MorphingShape3D {
     }
 
     animate() {
-        this.time += 0.008; // Slower, more elegant animation
+        this.time += 0.008;
         this.phaseTimer += 0.01;
         
         // Phase management - break apart every 8 seconds
@@ -189,9 +186,9 @@ class MorphingShape3D {
         this.animateSmallBlobs();
         this.handlePhaseTransitions();
 
-        // Camera subtle movement with mouse interaction
-        this.camera.position.x = -1 + Math.sin(this.time * 0.3) * 0.2 + this.mouse.x * 0.1;
-        this.camera.position.y = 0.5 + Math.cos(this.time * 0.2) * 0.1 + this.mouse.y * 0.05;
+        // Camera subtle movement with mouse interaction - more constrained
+        this.camera.position.x = Math.sin(this.time * 0.3) * 0.1 + this.mouse.x * 0.05;
+        this.camera.position.y = Math.cos(this.time * 0.2) * 0.05 + this.mouse.y * 0.03;
         this.camera.lookAt(0, 0, 0);
         
         this.renderer.render(this.scene, this.camera);
@@ -208,63 +205,67 @@ class MorphingShape3D {
             const y = originalPositions[i + 1];
             const z = originalPositions[i + 2];
             
-            // Multiple wave layers for complex morphing
-            const wave1 = Math.sin(this.time * 1.2 + x * 0.8 + y * 0.4) * 0.15;
-            const wave2 = Math.cos(this.time * 0.8 + z * 0.6 + x * 0.3) * 0.12;
-            const wave3 = Math.sin(this.time * 1.5 + y * 0.5 + z * 0.7) * 0.1;
-            const wave4 = Math.cos(this.time * 0.6 + x * 0.4 + z * 0.2) * 0.08;
+            // More controlled morphing - less extreme
+            const wave1 = Math.sin(this.time * 1.2 + x * 0.8 + y * 0.4) * 0.12;
+            const wave2 = Math.cos(this.time * 0.8 + z * 0.6 + x * 0.3) * 0.1;
+            const wave3 = Math.sin(this.time * 1.5 + y * 0.5 + z * 0.7) * 0.08;
+            const wave4 = Math.cos(this.time * 0.6 + x * 0.4 + z * 0.2) * 0.06;
             
             const totalMorph = wave1 + wave2 + wave3 + wave4;
             
-            // Scale factor based on break phase
+            // More controlled scale factor
             let scaleFactor = 1;
             if (this.breakPhase === 1) { // Breaking
-                scaleFactor = 1 - (this.phaseTimer / 2) * 0.3;
+                scaleFactor = 1 - (this.phaseTimer / 2) * 0.2; // Less shrinking
             } else if (this.breakPhase === 2) { // Separated
-                scaleFactor = 0.7;
+                scaleFactor = 0.8; // Less dramatic shrink
             } else if (this.breakPhase === 3) { // Rejoining
-                scaleFactor = 0.7 + (this.phaseTimer / 2) * 0.3;
+                scaleFactor = 0.8 + (this.phaseTimer / 2) * 0.2;
             }
             
-            positions[i] = x * (scaleFactor + totalMorph);
-            positions[i + 1] = y * (scaleFactor + totalMorph * 0.9);
-            positions[i + 2] = z * (scaleFactor + totalMorph * 1.1);
+            // Constrain maximum size
+            const maxScale = 1.15; // Never go beyond 115% original size
+            const finalScale = Math.min(scaleFactor + totalMorph, maxScale);
+            
+            positions[i] = x * finalScale;
+            positions[i + 1] = y * finalScale * 0.9;
+            positions[i + 2] = z * finalScale * 1.1;
         }
         
         geometry.attributes.position.needsUpdate = true;
         geometry.computeVertexNormals();
         
-        // Rotation with mouse influence
-        this.mainBlob.rotation.y = this.time * 0.15 + this.mouse.x * 0.05;
-        this.mainBlob.rotation.x = Math.sin(this.time * 0.4) * 0.08 + this.mouse.y * 0.03;
-        this.mainBlob.rotation.z = Math.cos(this.time * 0.3) * 0.04;
+        // More subtle rotation
+        this.mainBlob.rotation.y = this.time * 0.12 + this.mouse.x * 0.03;
+        this.mainBlob.rotation.x = Math.sin(this.time * 0.4) * 0.06 + this.mouse.y * 0.02;
+        this.mainBlob.rotation.z = Math.cos(this.time * 0.3) * 0.03;
     }
 
     animateSmallBlobs() {
         this.smallBlobs.forEach((blob, index) => {
             const angle = (index / this.smallBlobs.length) * Math.PI * 2;
-            const radius = 2.5 + Math.sin(this.time + index) * 0.5;
+            const radius = 1.8 + Math.sin(this.time + index) * 0.3; // Smaller orbit
             
-            // Animate each small blob
-            const bobbing = Math.sin(this.time * 1.5 + index * 0.5) * 0.3;
-            const floating = Math.cos(this.time * 0.8 + index * 0.8) * 0.2;
+            // Animate each small blob - more constrained
+            const bobbing = Math.sin(this.time * 1.5 + index * 0.5) * 0.2;
+            const floating = Math.cos(this.time * 0.8 + index * 0.8) * 0.15;
             
-            blob.position.x = Math.cos(angle + this.time * 0.2) * radius + 0.5;
-            blob.position.y = Math.sin(angle * 1.3 + this.time * 0.3) * 1.2 + bobbing;
-            blob.position.z = Math.sin(angle + this.time * 0.15) * 0.6 + floating;
+            blob.position.x = Math.cos(angle + this.time * 0.2) * radius;
+            blob.position.y = Math.sin(angle * 1.3 + this.time * 0.3) * 0.8 + bobbing;
+            blob.position.z = Math.sin(angle + this.time * 0.15) * 0.4 + floating;
             
             // Subtle rotation
             blob.rotation.x += 0.005;
             blob.rotation.y += 0.007;
             
             // Scale variation
-            const scaleVar = 1 + Math.sin(this.time * 2 + index) * 0.1;
+            const scaleVar = 1 + Math.sin(this.time * 2 + index) * 0.08;
             blob.scale.setScalar(scaleVar);
         });
     }
 
     handlePhaseTransitions() {
-        const progress = this.phaseTimer / 2; // 2 seconds per transition
+        const progress = this.phaseTimer / 2;
         
         switch (this.breakPhase) {
             case 0: // Whole state

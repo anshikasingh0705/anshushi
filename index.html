@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anshika Singh - Product Designer & Developer</title>
     <meta name="description" content="Product designer and developer who thrives in creativity and solution crafting that work at scale.">
     
+    <!-- Three.js MUST be first -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Custom Font - Glitten (you'll need to add the font files) */
-          @font-face {
+        /* Custom Font - Glitten */
+        @font-face {
             font-family: 'Glitten';
-             src: url('fonts/Glitten-Regular.otf') format('opentype');
-             font-weight: normal;
-             font-style: normal;
-             font-display: swap;
-}   
-
+            src: url('fonts/Glitten-Regular.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }   
 
         /* CSS Variables */
         :root {
@@ -28,6 +28,8 @@
             --color-text: #1a1a1a;
             --color-text-light: #666;
             --color-white: #ffffff;
+            --color-E6E6E6: #E6E6E6;
+            --color-EEEEEE: #EEEEEE;
             --color-shadow: rgba(0, 0, 0, 0.1);
             --color-shadow-hover: rgba(0, 0, 0, 0.15);
             
@@ -113,6 +115,7 @@
             list-style: none;
         }
 
+        /* FIXED Navigation Links - Your Custom Colors */
         .nav__link {
             display: inline-block;
             padding: 0.75rem 1.5rem;
@@ -120,26 +123,28 @@
             color: var(--color-text);
             text-decoration: none;
             border-radius: var(--border-radius-pill);
+            border: 5px solid #D3D4D4;
             font-weight: 500;
             font-size: 0.95rem;
             transition: var(--transition);
-            box-shadow: 0 2px 10px var(--color-shadow);
+            box-shadow: none;
         }
 
         .nav__link:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px var(--color-shadow-hover);
+            border-color: #bbbcbc;
+            box-shadow: none;
         }
 
-        /* Hero Section */
+        /* FIXED Hero Section - For 3D Animation */
         .hero {
             min-height: 100vh;
             display: grid;
             grid-template-columns: 1fr 1fr;
             align-items: center;
-            gap: var(--spacing-lg);
+            gap: 0;
             position: relative;
-            overflow: hidden;
+            overflow: visible;
             padding-top: 80px;
         }
 
@@ -148,13 +153,21 @@
             height: 80vh;
             min-height: 600px;
             z-index: 1;
-        }
-
-        .hero__3d iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            pointer-events: auto;
+            position: relative;
+            overflow: hidden; /* Prevent overflow beyond container */
+            /* Gradient mask for smooth transition */
+            mask: linear-gradient(to right, 
+                rgba(0,0,0,1) 0%, 
+                rgba(0,0,0,1) 65%, 
+                rgba(0,0,0,0.8) 80%, 
+                rgba(0,0,0,0.4) 90%, 
+                rgba(0,0,0,0) 100%);
+            -webkit-mask: linear-gradient(to right, 
+                rgba(0,0,0,1) 0%, 
+                rgba(0,0,0,1) 65%, 
+                rgba(0,0,0,0.8) 80%, 
+                rgba(0,0,0,0.4) 90%, 
+                rgba(0,0,0,0) 100%);
         }
 
         .hero__content {
@@ -162,7 +175,49 @@
             flex-direction: column;
             justify-content: center;
             padding: var(--spacing-md);
+            padding-left: var(--spacing-lg);
             z-index: 10;
+            position: relative;
+        }
+
+        /* Social Media Icons */
+        .social-icons {
+            position: fixed;
+            right: var(--spacing-md);
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            z-index: 100;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: var(--color-white);
+            border-radius: 50%;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px var(--color-shadow);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px var(--color-shadow-hover);
+        }
+
+        .social-icon img {
+            width: 24px;
+            height: 24px;
+            transition: var(--transition);
+        }
+
+        .social-icon:hover img {
+            transform: scale(1.1);
         }
 
         .hero__title {
@@ -243,7 +298,7 @@
             gap: var(--spacing-md);
         }
 
-        /* About Section */
+        /* FIXED About Section - Your Custom Colors */
         .about {
             background: var(--color-EEEEEE);
             border-radius: var(--border-radius);
@@ -293,6 +348,13 @@
             }
         }
 
+        /* Utility Classes */
+        .fade-in {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .container {
@@ -314,10 +376,23 @@
                 height: 50vh;
                 min-height: 400px;
                 order: 1;
+                width: 100%;
+                mask: none;
+                -webkit-mask: none;
             }
 
             .hero__content {
                 order: 2;
+                padding-left: var(--spacing-md);
+            }
+
+            .social-icons {
+                position: static;
+                flex-direction: row;
+                justify-content: center;
+                transform: none;
+                margin-top: var(--spacing-md);
+                order: 3;
             }
 
             .work__grid-row {
@@ -354,14 +429,6 @@
             outline: 2px solid var(--color-text);
             outline-offset: 2px;
         }
-
-        /* Intersection Observer Classes */
-        .fade-in {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-
     </style>
 </head>
 <body>
@@ -380,16 +447,29 @@
     </header>
 
     <!-- Hero Section -->
-   <section class="hero">
-    <div class="hero__3d" id="morphing-container"></div>
-    <div class="hero__content">
-        <h1 class="hero__title">Hi! I'm Anshika,</h1>
-        <p class="hero__subtitle">
-            a <span class="highlight">product designer</span> and <span class="highlight">developer</span> who thrives<br>
-            in creativity and solution crafting that work at scale.
-        </p>
-    </div>
+    <section class="hero">
+        <div class="hero__3d" id="morphing-container"></div>
+        <div class="hero__content">
+            <h1 class="hero__title">Hi! I'm Anshika,</h1>
+            <p class="hero__subtitle">
+                a <span class="highlight">product designer</span> and <span class="highlight">developer</span> who thrives<br>
+                in creativity and solution crafting that work at scale.
+            </p>
+        </div>
     </section>
+
+    <!-- Social Media Icons -->
+    <div class="social-icons">
+        <a href="https://github.com/anshikasingh" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub Profile">
+            <img src="images/github.svg" alt="GitHub" />
+        </a>
+        <a href="https://linkedin.com/in/anshikasingh" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn Profile">
+            <img src="images/linkedin.svg" alt="LinkedIn" />
+        </a>
+        <a href="mailto:anshika100104@gmail.com" class="social-icon" aria-label="Email">
+            <img src="images/gmail.svg" alt="Email" />
+        </a>
+    </div>
 
     <!-- Featured Work -->
     <section class="section" id="work">
@@ -428,7 +508,11 @@
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script>
+        // Debug: Check if Three.js loaded
+        console.log('Three.js loaded:', typeof THREE !== 'undefined');
+
         // Smooth Scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -461,14 +545,32 @@
             });
         }, observerOptions);
 
-        // Observe elements
+        // Initialize 3D Animation
         document.addEventListener('DOMContentLoaded', () => {
+            // Animate elements
             const elementsToAnimate = document.querySelectorAll('.section__title, .work__item, .about');
             elementsToAnimate.forEach(el => observer.observe(el));
+
+            // Initialize 3D shape
+            const container = document.getElementById('morphing-container');
+            if (container && typeof THREE !== 'undefined' && window.MorphingShape3D) {
+                try {
+                    console.log('Initializing 3D shape...');
+                    window.morphingShape = new MorphingShape3D(container);
+                    console.log('✅ 3D shape initialized successfully');
+                } catch (error) {
+                    console.error('❌ 3D shape initialization failed:', error);
+                }
+            } else {
+                console.error('❌ Missing:', {
+                    container: !!container,
+                    three: typeof THREE !== 'undefined',
+                    morphClass: !!window.MorphingShape3D
+                });
+            }
         });
 
         // Header background on scroll
-        let lastScrollY = window.scrollY;
         window.addEventListener('scroll', () => {
             const header = document.querySelector('.header');
             if (window.scrollY > 100) {
@@ -477,23 +579,9 @@
                 header.style.background = 'rgba(230, 230, 230, 0.95)';
             }
         });
-
-        // 3D Model interaction optimization
-        const hero3D = document.querySelector('.hero__3d iframe');
-        
-        // Ensure 3D model loads properly
-        window.addEventListener('load', () => {
-            if (hero3D) {
-                hero3D.style.visibility = 'visible';
-            }
-        });
-
-        // Preload optimization
-        window.addEventListener('load', () => {
-            document.body.style.opacity = '1';
-        });
     </script>
+
+    <!-- Load 3D Shape Script -->
     <script src="morphing-shape.js"></script>
-    <script src="script.js"></script>
 </body>
 </html>
